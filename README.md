@@ -1,2 +1,2 @@
-# antlr-workshop
-A workshop on ANTLR
+# ANTLR workshop
+A workshop on ANTLR.
