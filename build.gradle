@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.antlr:antlr4:${antlrVersion}"
+        classpath "org.antlr:antlr4-runtime:${antlrVersion}"
+        classpath "ch.raffael.gradlePlugins.antlr4:gradle-antlr4-plugin:1.0"
+    }
+}
+
+version '0.0.1-SNAPSHOT'
+
+group "es.osoco.workshops.antlr"
+
+apply plugin: 'ch.raffael.antlr4'
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'codenarc'
+apply plugin: 'antlr'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile "org.antlr:antlr4:${antlrVersion}"
+    runtime "org.antlr:antlr4-runtime:${antlrVersion}"
+    antlr "org.antlr:antlr4:${antlrVersion}"
+}
+
+antlr4 {
+    version = '4.7.2'
+    listener = true
+    visitor = true
+    runtimePackage = 'org.antlr.v4.runtime'
+    destination = file("target/generated-sources/antlr4")
+    generateDir = file("target/generated-sources/antlr4-intermediate")
+}
+
+idea {
+    module {
+        sourceDirs += file("target/generated-sources/antlr4")
+        sourceDirs += file("target/generated-sources/antlr4-intermediate")
+    }
+}
+
+test {
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+
+    finalizedBy 'codenarcMain'
+    finalizedBy 'codenarcTest'
+}
+
+codenarc {
+    toolVersion = '1.0'
+    configFile = new File(projectDir, 'config/codenarc/rules.groovy')
+    maxPriority1Violations = 0
+    maxPriority2Violations = 0
+    maxPriority3Violations = 0
+}

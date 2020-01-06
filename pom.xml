@@ -1,0 +1,122 @@
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.osoco.workshops</groupId>
+  <artifactId>antlr-workshop</artifactId>
+  <packaging>jar</packaging>
+  <version>latest-SNAPSHOT</version>
+  <name>ANTLR workshop</name>
+  <inceptionYear>2020</inceptionYear>
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>http://www.fsf.org/licensing/licenses/gpl.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <organization>
+    <name>OSOCO</name>
+    <url>https://osoco.es</url>
+  </organization>
+
+  <scm>                                                                                     
+    <connection>scm:git:http://github.com/osoco/antlr-workshop.git</connection> 
+    <developerConnection>scm:git:http://github.com/osoco/antlr-workshop.git</developerConnection> 
+    <url>scm:git:http://github.com/osoco/antlr-workshop.git</url> 
+    <tag>HEAD</tag>                                                                         
+  </scm>                                                                                    
+                                                                                            
+  <issueManagement>                                                                         
+    <system>github</system>                                                                   
+    <url>http://github.com/osoco/antlr-workshop.git/</url>
+  </issueManagement>
+
+  <properties>
+    <antlr4.version>4.7.2</antlr4.version>
+
+    <antlr4.visitor>true</antlr4.visitor>
+    <antlr4.listener>true</antlr4.listener>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4</artifactId>
+        <version>${antlr4.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr-runtime</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-runtime</artifactId>
+        <version>${antlr4.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-annotations</artifactId>
+        <version>${antlr4.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>ST4</artifactId>
+        <version>4.0.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr</artifactId>
+        <version>3.5.2</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4-runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>ST4</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>${antlr4.version}</version>
+        <executions>
+          <execution>
+            <id>default-execution</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>antlr4</goal>
+            </goals>
+          </execution>
+        </executions>
+        <goals>
+          <goal>antlr4</goal>
+        </goals>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <listener>${antlr4.listener}</listener>
+          <visitor>${antlr4.visitor}</visitor>
+          <outputDirectory>${project.build.directory}/generated-sources/antlr4</outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
