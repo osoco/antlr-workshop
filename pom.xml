@@ -34,7 +34,13 @@
   </issueManagement>
 
   <properties>
-    <antlr4.version>4.7.2</antlr4.version>
+    <version.antlr4>4.7.2</version.antlr4>
+    <version.netty>4.1.44.Final</version.netty>
+    <version.slf4j>2.0.0-alpha1</version.slf4j>
+    <version.jetbrains-annotations>18.0.0</version.jetbrains-annotations>
+
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <antlr4.visitor>true</antlr4.visitor>
     <antlr4.listener>true</antlr4.listener>
@@ -45,7 +51,7 @@
       <dependency>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4</artifactId>
-        <version>${antlr4.version}</version>
+        <version>${version.antlr4}</version>
         <exclusions>
           <exclusion>
             <groupId>org.antlr</groupId>
@@ -56,12 +62,12 @@
       <dependency>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-runtime</artifactId>
-        <version>${antlr4.version}</version>
+	<version>${version.antlr4}</version>
       </dependency>
       <dependency>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-annotations</artifactId>
-        <version>${antlr4.version}</version>
+	<version>${version.antlr4}}</version>
       </dependency>
       <dependency>
         <groupId>org.antlr</groupId>
@@ -73,6 +79,32 @@
         <artifactId>antlr</artifactId>
         <version>3.5.2</version>
       </dependency>
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-transport</artifactId>
+        <version>${version.netty}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-buffer</artifactId>
+        <version>${version.netty}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations</artifactId>
+        <version>${version.jetbrains-annotations}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -89,6 +121,27 @@
       <groupId>org.antlr</groupId>
       <artifactId>ST4</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-transport</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-buffer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -96,7 +149,7 @@
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
-        <version>${antlr4.version}</version>
+        <version>${version.antlr4}</version>
         <executions>
           <execution>
             <id>default-execution</id>
