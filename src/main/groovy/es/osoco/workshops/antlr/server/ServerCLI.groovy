@@ -1,34 +1,27 @@
 package es.osoco.workshops.antlr.server
 
-import es.osoco.workshops.antlr.cli.helpers.CommandLineChecker
-import es.osoco.workshops.antlr.cli.CommandLineHelper
+
+import es.osoco.workshops.antlr.server.helpers.CommandLineHelper
+import groovy.transform.CompileStatic
+import lombok.NonNull
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.CommandLineParser
 import org.apache.commons.cli.DefaultParser
-import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
-import org.apache.commons.cli.ParseException
-import groovy.transform.CompileStatic
 
 /**
  * Runs the server from the command line.
  */
 @CompileStatic
-class ServerCLI
-    implements CLIOptions {
+class ServerCLI implements CLIOptions {
 
     /**
      * Builds the command-line options to build a {@link CommandLineParser parser}.
      * @return the {@link Options}.
      */
+    @NonNull
     protected static Options buildOptions() {
-        final Options result = CommandLineHelper.buildOptions()
-
-        result.with {
-            addOption(PORT_OPTION, 'port', true, 'the server port')
-        }
-
-        result
+        CommandLineHelper.buildOptions()
     }
 
     /**
@@ -36,26 +29,20 @@ class ServerCLI
      * @param args the command-line arguments.
      */
     @SuppressWarnings('JavaIoPackageAccess')
-    static void main(final String[] args) {
+    static void main(@NonNull final String[] args) {
+
+        final NettyBackend backend = new NettyBackend()
+
+        Runtime.runtime.addShutdownHook({ backend.stopServer() })
 
         final CommandLineParser parser = new DefaultParser()
 
         final Options options = buildOptions()
 
-        final Logging logging = LoggingFactory.instance.createLogging()
+        final CommandLine cmd = parser.parse(options, args)
 
-        try {
-            final CommandLine cmd = parser.parse(options, args)
+        final int port = CommandLineHelper.getPortValue(cmd)
 
-            final String port = cmd.getOptionValue(PORT_OPTION)
-
-        } catch (ParseException invalidInvocation) {
-
-            logging.error('Invalid arguments.')
-            logging.error(invalidInvocation.message)
-            final HelpFormatter formatter = new HelpFormatter()
-            formatter.printHelp('server', options)
-            invalidInvocation.printStackTrace(System.err)
-        }
+        backend.launchServer(port)
     }
 }

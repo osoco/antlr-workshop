@@ -1,6 +1,7 @@
 build
 *.class
 *.ctxt
+dependency-reduced-pom.xml
 *.ear
 gradle
 .gradle

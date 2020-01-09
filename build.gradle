@@ -3,11 +3,13 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-    }
+        maven { url "https://plugins.gradle.org/m2/" }
+     }
     dependencies {
         classpath "org.antlr:antlr4:${antlrVersion}"
         classpath "org.antlr:antlr4-runtime:${antlrVersion}"
         classpath "ch.raffael.gradlePlugins.antlr4:gradle-antlr4-plugin:1.0"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
     }
 }
 
@@ -35,6 +37,10 @@ dependencies {
     runtime "org.antlr:antlr4-runtime:${antlrVersion}"
     antlr "org.antlr:antlr4:${antlrVersion}"
     compile 'es.osoco.logging:java-logging:0.6'
+    compile 'commons-cli:commons-cli:1.4'
+    compile 'org.jetbrains:annotations:18.0.0'
+    compile 'io.netty:netty-transport:4.1.44.Final'
+    compile 'io.netty:netty-buffer:4.1.44.Final'
 }
 
 antlr4 {

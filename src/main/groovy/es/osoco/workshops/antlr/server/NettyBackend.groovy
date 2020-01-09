@@ -1,5 +1,7 @@
 package es.osoco.workshops.antlr.server
 
+import es.osoco.logging.LoggingFactory
+import groovy.transform.CompileStatic
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelHandlerAdapter
@@ -9,22 +11,14 @@ import io.netty.channel.EventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
-import java.io.IOException
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
-import org.slf4j.LoggerFactory
-import groovy.transform.CompileStatic
 
 /**
- * Netty-based TCP/IP server.
+ * Netty-based TCP/IP server for SimpleProtocol grammar.
  */
 @CompileStatic
-public class NettyBackend {
-    /**
-     * The system property to specify the port.
-     */
-    public static final String SERVER_PORT = "es.osoco.workshops.antlr.server.port"
-
+class NettyBackend {
     /**
      * The server bootstrap.
      */
@@ -89,38 +83,15 @@ public class NettyBackend {
     }
 
     @NotNull
-    public void start() {
+    void start(final int port) {
         try {
-            final ChannelFuture future = launchServer()
+            final ChannelFuture future = launchServer(port)
 
             future.sync()
-        } catch (@NotNull final InterruptedException | IOException interruption) {
-	    // TODO
+        } catch (final InterruptedException | IOException interruption) {
+            LoggingFactory.instance.createLogging().error(interruption.message, interruption)
         }
     }
-
-    /**
-     * Launches the server.
-     * @return the {@link ChannelFuture}.
-     * @throws InterruptedException if the server gets interrupted.
-     * @throws IOException if the socket cannot be bound.
-     */
-    public ChannelFuture launchServer()
-        throws InterruptedException,
-               IOException {
-        final int port
-
-        @Nullable final String aux = System.getProperty(SERVER_PORT)
-
-        if (aux != null) {
-            port = Integer.valueOf(aux)
-        } else {
-            port = 9999
-        }
-
-        return launchServer(port)
-    }
-
     /**
      * Launches the server.
      * @param port the port.
@@ -128,7 +99,7 @@ public class NettyBackend {
      * @throws InterruptedException if the server gets interrupted.
      * @throws IOException if the socket cannot be bound.
      */
-    public ChannelFuture launchServer(final int port)
+    ChannelFuture launchServer(final int port)
         throws InterruptedException,
                IOException {
 
@@ -156,37 +127,39 @@ public class NettyBackend {
         @NotNull final EventLoopGroup workerGroup = new NioEventLoopGroup()
         try
         {
-            @NotNull final ServerBootstrap b = new ServerBootstrap()
+            final ServerBootstrap b = new ServerBootstrap()
             b.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<SocketChannel>()
-                { // (4)
+                {
                     /**
                      * {@inheritDoc}
                      */
                     @Override
-                    public void initChannel(@NotNull final SocketChannel ch)
+                    void initChannel(@NotNull final SocketChannel ch)
                         throws Exception
                     {
                         ch.pipeline().addLast(handler)
                     }
                 })
-                .option(ChannelOption.SO_BACKLOG, 128)          // (5)
+                .option(ChannelOption.SO_BACKLOG, 128)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
-                .childOption(ChannelOption.SO_KEEPALIVE, true) // (6)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
+
+            LoggingFactory.instance.createLogging().info("Server started on port ${port}")
 
             // Bind and start to accept incoming connections.
             aux = b.bind(port).sync() 
 
-        } catch (@NotNull final Throwable throwable) {
-            LoggerFactory.getLogger(NettyBackend.class).error(
+        } catch (final Throwable throwable) {
+            LoggingFactory.instance.createLogging().error(
                 "Cannot run the ANTLR workshop server", throwable)
             workerGroup.shutdownGracefully()
             bossGroup.shutdownGracefully()
         }
 
         if (aux == null) {
-            throw new RuntimeException("Error starting server")
+            throw new RuntimeException("Error starting the ANTLR workshop server")
         } else {
             result = aux
         }
@@ -199,8 +172,7 @@ public class NettyBackend {
      * @throws InterruptedException if the server cannot be stopped.
      */
     @SuppressWarnings("unused")
-    public void stopServer()
-        throws InterruptedException {
+    void stopServer() throws InterruptedException {
         stopServer(getEventLoopGroup())
     }
 

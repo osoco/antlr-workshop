@@ -1,42 +1,44 @@
 package es.osoco.workshops.antlr.server
 
+import es.osoco.logging.LoggingFactory
+import groovy.transform.CompileStatic
 import io.netty.buffer.ByteBuf
+import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelFuture
+import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
+import io.netty.channel.ChannelPromise
 import io.netty.util.CharsetUtil
 import io.netty.util.ReferenceCountUtil
-import io.netty.util.concurrent.Future
 import org.jetbrains.annotations.NotNull
-import groovy.transform.CompileStatic
 
 /**
  * {@link io.netty.channel.ChannelInboundHandlerAdapter} implementation for SimpleProtocol grammar.
  */
 @CompileStatic
+@ChannelHandler.Sharable
 class NettyBackendChannelHandler
     extends ChannelInboundHandlerAdapter {
 
-    private SimpleProtocolRequestHandler requestHandler
+    SimpleProtocolRequestHandler requestHandler
 
     /**
      * Creates a new instance.
      * @param handler the {@link SimpleProtocolRequestHandler handler}.
      */
-    public NettyBackendChannelHandler(@NotNull final SimpleProtocolRequestHandler handler)
+    NettyBackendChannelHandler(@NotNull final SimpleProtocolRequestHandler handler)
     {
         this.requestHandler = handler
-    }
-
-    public SimpleProtocolRequestHandler getRequestHandler() {
-        return this.requestHandler
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void channelRead(@NotNull final ChannelHandlerContext ctx, @NotNull final Object msg) {
+    void channelRead(@NotNull final ChannelHandlerContext ctx, @NotNull final Object msg) {
+        String response = 'NACK'
+
         try {
             @NotNull final ByteBuf buffer = (ByteBuf) msg
 
@@ -46,16 +48,20 @@ class NettyBackendChannelHandler
                 aux[index] = buffer.readByte()
             }
 
-            processMessage(new String(aux, CharsetUtil.US_ASCII), getRequestHandler())
+            response = processMessage(new String(aux, CharsetUtil.US_ASCII), getRequestHandler())
 
         } finally {
             ReferenceCountUtil.release(msg)
         }
 
-        final ChannelFuture future = ctx.writeAndFlush("ACK")
+        final ChannelFuture future = ctx.write(Unpooled.copiedBuffer(response + '\n', CharsetUtil.UTF_8))
+        ctx.flush()
+        if (!future.isSuccess()) {
+            LoggingFactory.instance.createLogging().error("Send failed: ${future.cause()}")
+        }
         future.addListener(
-            (Future<? super Void> channelFuture) -> {
-                System.out.println("Closing context")
+            { channelFuture ->
+                LoggingFactory.instance.createLogging().error("(Client disconnected)")
                 ctx.close()
             })
     }
@@ -64,9 +70,9 @@ class NettyBackendChannelHandler
      * {@inheritDoc}
      */
     @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause)
+    void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause)
         throws Exception {
-        cause.printStackTrace()
+        LoggingFactory.instance.createLogging().error(cause.message, cause)
         ctx.close()
     }
 
@@ -75,7 +81,7 @@ class NettyBackendChannelHandler
      * @param message the message.
      * @param handler the {@link SimpleProtocolRequestHandler handler}.
      */
-    public void processMessage(@NotNull final String message, @NotNull final SimpleProtocolRequestHandler handler) {
+    String processMessage(@NotNull final String message, @NotNull final SimpleProtocolRequestHandler handler) {
         handler.process(message)
     }
 }
