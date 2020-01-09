@@ -1,21 +1,23 @@
-package es.osoco.workshops.antlr;
+package es.osoco.workshops.antlr.server
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
-import io.netty.util.ReferenceCountUtil;
-import io.netty.util.concurrent.Future;
-import org.jetbrains.annotations.NotNull;
+import io.netty.buffer.ByteBuf
+import io.netty.channel.ChannelFuture
+import io.netty.channel.ChannelHandlerContext
+import io.netty.channel.ChannelInboundHandlerAdapter
+import io.netty.util.CharsetUtil
+import io.netty.util.ReferenceCountUtil
+import io.netty.util.concurrent.Future
+import org.jetbrains.annotations.NotNull
+import groovy.transform.CompileStatic
 
 /**
  * {@link io.netty.channel.ChannelInboundHandlerAdapter} implementation for SimpleProtocol grammar.
  */
-public class NettyBackendChannelHandler
+@CompileStatic
+class NettyBackendChannelHandler
     extends ChannelInboundHandlerAdapter {
 
-    private SimpleProtocolRequestHandler requestHandler;
+    private SimpleProtocolRequestHandler requestHandler
 
     /**
      * Creates a new instance.
@@ -23,11 +25,11 @@ public class NettyBackendChannelHandler
      */
     public NettyBackendChannelHandler(@NotNull final SimpleProtocolRequestHandler handler)
     {
-        this.requestHandler = handler;
+        this.requestHandler = handler
     }
 
     public SimpleProtocolRequestHandler getRequestHandler() {
-        return this.requestHandler;
+        return this.requestHandler
     }
 
     /**
@@ -36,26 +38,26 @@ public class NettyBackendChannelHandler
     @Override
     public void channelRead(@NotNull final ChannelHandlerContext ctx, @NotNull final Object msg) {
         try {
-            @NotNull final ByteBuf buffer = (ByteBuf) msg;
+            @NotNull final ByteBuf buffer = (ByteBuf) msg
 
-            @NotNull final byte[] aux = new byte[buffer.readableBytes()];
+            @NotNull final byte[] aux = new byte[buffer.readableBytes()]
 
             for (int index = 0; index < aux.length; index++) {
-                aux[index] = buffer.readByte();
+                aux[index] = buffer.readByte()
             }
 
-            processMessage(new String(aux, CharsetUtil.US_ASCII), getRequestHandler());
+            processMessage(new String(aux, CharsetUtil.US_ASCII), getRequestHandler())
 
         } finally {
-            ReferenceCountUtil.release(msg);
+            ReferenceCountUtil.release(msg)
         }
 
-        final ChannelFuture future = ctx.writeAndFlush("ACK");
+        final ChannelFuture future = ctx.writeAndFlush("ACK")
         future.addListener(
             (Future<? super Void> channelFuture) -> {
-                System.out.println("Closing context");
-                ctx.close();
-            });
+                System.out.println("Closing context")
+                ctx.close()
+            })
     }
 
     /**
@@ -64,8 +66,8 @@ public class NettyBackendChannelHandler
     @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause)
         throws Exception {
-        cause.printStackTrace();
-        ctx.close();
+        cause.printStackTrace()
+        ctx.close()
     }
 
     /**
@@ -74,6 +76,6 @@ public class NettyBackendChannelHandler
      * @param handler the {@link SimpleProtocolRequestHandler handler}.
      */
     public void processMessage(@NotNull final String message, @NotNull final SimpleProtocolRequestHandler handler) {
-        handler.process(message);
+        handler.process(message)
     }
 }

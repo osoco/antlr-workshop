@@ -38,6 +38,10 @@
     <version.netty>4.1.44.Final</version.netty>
     <version.slf4j>2.0.0-alpha1</version.slf4j>
     <version.jetbrains-annotations>18.0.0</version.jetbrains-annotations>
+    <version.osoco-logging>0.6</version.osoco-logging>
+    <version.groovy>2.5.8</version.groovy>
+    <version.maven-compiler-plugin>3.1</version.maven-compiler-plugin>
+    <version.groovy-eclipse-compiler>2.7.0-01</version.groovy-eclipse-compiler>
 
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -62,12 +66,12 @@
       <dependency>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-runtime</artifactId>
-	<version>${version.antlr4}</version>
+	      <version>${version.antlr4}</version>
       </dependency>
       <dependency>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-annotations</artifactId>
-	<version>${version.antlr4}}</version>
+	      <version>${version.antlr4}}</version>
       </dependency>
       <dependency>
         <groupId>org.antlr</groupId>
@@ -104,7 +108,16 @@
         <artifactId>annotations</artifactId>
         <version>${version.jetbrains-annotations}</version>
       </dependency>
-
+      <dependency>
+        <groupId>es.osoco.logging</groupId>
+        <artifactId>java-logging</artifactId>
+        <version>${version.osoco-logging}</version>
+      </dependency>
+       <dependency>
+         <groupId>org.codehaus.groovy</groupId>
+         <artifactId>groovy</artifactId>
+         <version>${version.groovy}</version>
+       </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -120,6 +133,10 @@
     <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>ST4</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy</artifactId>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
@@ -141,6 +158,10 @@
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>es.osoco.logging</groupId>
+      <artifactId>java-logging</artifactId>
     </dependency>
   </dependencies>
 
@@ -168,6 +189,22 @@
           <visitor>${antlr4.visitor}</visitor>
           <outputDirectory>${project.build.directory}/generated-sources/antlr4</outputDirectory>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${version.maven-compiler-plugin}</version>
+        <configuration>
+          <compilerId>groovy-eclipse-compiler</compilerId>
+          <verbose>true</verbose>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-eclipse-compiler</artifactId>
+            <version>${version.groovy-eclipse-compiler}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>

@@ -1,46 +1,47 @@
-package es.osoco.workshops.antlr;
+package es.osoco.workshops.antlr.server
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-
-import java.io.IOException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.LoggerFactory;
+import io.netty.bootstrap.ServerBootstrap
+import io.netty.channel.ChannelFuture
+import io.netty.channel.ChannelHandlerAdapter
+import io.netty.channel.ChannelInitializer
+import io.netty.channel.ChannelOption
+import io.netty.channel.EventLoopGroup
+import io.netty.channel.nio.NioEventLoopGroup
+import io.netty.channel.socket.SocketChannel
+import io.netty.channel.socket.nio.NioServerSocketChannel
+import java.io.IOException
+import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
+import org.slf4j.LoggerFactory
+import groovy.transform.CompileStatic
 
 /**
  * Netty-based TCP/IP server.
  */
+@CompileStatic
 public class NettyBackend {
     /**
      * The system property to specify the port.
      */
-    public static final String SERVER_PORT = "es.osoco.workshops.antlr.server.port";
+    public static final String SERVER_PORT = "es.osoco.workshops.antlr.server.port"
 
     /**
      * The server bootstrap.
      */
-    private ServerBootstrap serverBootstrap;
+    private ServerBootstrap serverBootstrap
 
     /**
      * The event loop group.
      */
-    private EventLoopGroup eventLoopGroup;
+    private EventLoopGroup eventLoopGroup
 
     /**
      * The channel future.
      */
-    private ChannelFuture channelFuture;
+    private ChannelFuture channelFuture
 
     protected void setServerBootstrap(@NotNull final ServerBootstrap bootstrap) {
-        this.serverBootstrap = bootstrap;
+        this.serverBootstrap = bootstrap
     }
 
     /**
@@ -50,7 +51,7 @@ public class NettyBackend {
     @SuppressWarnings("unused")
     @Nullable
     protected ServerBootstrap getServerBootstrap() {
-        return this.serverBootstrap;
+        return this.serverBootstrap
     }
 
     /**
@@ -58,7 +59,7 @@ public class NettyBackend {
      * @param group such {@link EventLoopGroup}.
      */
     protected void setEventLoopGroup(@NotNull final EventLoopGroup group) {
-        this.eventLoopGroup = group;
+        this.eventLoopGroup = group
     }
 
     /**
@@ -66,7 +67,7 @@ public class NettyBackend {
      * @return such {@link EventLoopGroup}.
      */
     protected EventLoopGroup getEventLoopGroup() {
-        return eventLoopGroup;
+        return eventLoopGroup
     }
 
     /**
@@ -75,7 +76,7 @@ public class NettyBackend {
      */
     @SuppressWarnings("unused")
     protected void setChannelFuture(@NotNull final ChannelFuture future) {
-        this.channelFuture = future;
+        this.channelFuture = future
     }
 
     /**
@@ -84,15 +85,15 @@ public class NettyBackend {
      */
     @SuppressWarnings("unused")
     protected ChannelFuture getChannelFuture() {
-        return this.channelFuture;
+        return this.channelFuture
     }
 
     @NotNull
     public void start() {
         try {
-            final ChannelFuture future = launchServer();
+            final ChannelFuture future = launchServer()
 
-            future.sync();
+            future.sync()
         } catch (@NotNull final InterruptedException | IOException interruption) {
 	    // TODO
         }
@@ -107,17 +108,17 @@ public class NettyBackend {
     public ChannelFuture launchServer()
         throws InterruptedException,
                IOException {
-        final int port;
+        final int port
 
-        @Nullable final String aux = System.getProperty(SERVER_PORT);
+        @Nullable final String aux = System.getProperty(SERVER_PORT)
 
         if (aux != null) {
-            port = Integer.valueOf(aux);
+            port = Integer.valueOf(aux)
         } else {
-            port = 9999;
+            port = 9999
         }
 
-        return launchServer(port);
+        return launchServer(port)
     }
 
     /**
@@ -131,7 +132,7 @@ public class NettyBackend {
         throws InterruptedException,
                IOException {
 
-        return launchServer(port, new NettyBackendChannelHandler(new SimpleProtocolRequestHandler()));
+        return launchServer(port, new NettyBackendChannelHandler(new SimpleProtocolRequestHandler()))
     }
 
     /**
@@ -146,16 +147,16 @@ public class NettyBackend {
     protected ChannelFuture launchServer(final int port, @NotNull final ChannelHandlerAdapter handler)
         throws InterruptedException,
                IOException {
-        @NotNull final ChannelFuture result;
+        @NotNull final ChannelFuture result
 
-        @Nullable ChannelFuture aux = null;
+        @Nullable ChannelFuture aux = null
 
-        @NotNull final EventLoopGroup bossGroup = new NioEventLoopGroup();
-        setEventLoopGroup(bossGroup);
-        @NotNull final EventLoopGroup workerGroup = new NioEventLoopGroup();
+        @NotNull final EventLoopGroup bossGroup = new NioEventLoopGroup()
+        setEventLoopGroup(bossGroup)
+        @NotNull final EventLoopGroup workerGroup = new NioEventLoopGroup()
         try
         {
-            @NotNull final ServerBootstrap b = new ServerBootstrap();
+            @NotNull final ServerBootstrap b = new ServerBootstrap()
             b.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<SocketChannel>()
@@ -167,30 +168,30 @@ public class NettyBackend {
                     public void initChannel(@NotNull final SocketChannel ch)
                         throws Exception
                     {
-                        ch.pipeline().addLast(handler);
+                        ch.pipeline().addLast(handler)
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
-                .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
+                .childOption(ChannelOption.SO_KEEPALIVE, true) // (6)
 
             // Bind and start to accept incoming connections.
-            aux = b.bind(port).sync(); 
+            aux = b.bind(port).sync() 
 
         } catch (@NotNull final Throwable throwable) {
             LoggerFactory.getLogger(NettyBackend.class).error(
-                "Cannot run the ANTLR workshop server", throwable);
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
+                "Cannot run the ANTLR workshop server", throwable)
+            workerGroup.shutdownGracefully()
+            bossGroup.shutdownGracefully()
         }
 
         if (aux == null) {
-            throw new RuntimeException("Error starting server");
+            throw new RuntimeException("Error starting server")
         } else {
-            result = aux;
+            result = aux
         }
 
-        return result;
+        return result
     }
 
     /**
@@ -200,7 +201,7 @@ public class NettyBackend {
     @SuppressWarnings("unused")
     public void stopServer()
         throws InterruptedException {
-        stopServer(getEventLoopGroup());
+        stopServer(getEventLoopGroup())
     }
 
     /**
@@ -210,6 +211,6 @@ public class NettyBackend {
      */
     protected void stopServer(@NotNull final EventLoopGroup group)
         throws InterruptedException {
-        group.shutdownGracefully().sync();
+        group.shutdownGracefully().sync()
     }
 }

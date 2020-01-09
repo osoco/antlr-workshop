@@ -17,8 +17,10 @@ group "es.osoco.workshops.antlr"
 
 apply plugin: 'ch.raffael.antlr4'
 apply plugin: 'idea'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'groovy'
 apply plugin: 'codenarc'
 apply plugin: 'antlr'
 
@@ -32,6 +34,7 @@ dependencies {
     compile "org.antlr:antlr4:${antlrVersion}"
     runtime "org.antlr:antlr4-runtime:${antlrVersion}"
     antlr "org.antlr:antlr4:${antlrVersion}"
+    compile 'es.osoco.logging:java-logging:0.6'
 }
 
 antlr4 {
@@ -48,6 +51,31 @@ idea {
         sourceDirs += file("target/generated-sources/antlr4")
         sourceDirs += file("target/generated-sources/antlr4-intermediate")
     }
+}
+
+task serverJar(type: Jar) {
+  dependsOn classes
+  manifest {
+    attributes "Main-Class": 'es.osoco.workshops.antlr.server.ServerCLI'
+  }
+  include '**/*.jar'
+  include '**/*.class'
+  include '**/*.properties'
+  baseName = 'server'
+  from sourceSets.main.output.classesDirs
+  from sourceSets.main.output.resourcesDir
+}
+
+task serverShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+  dependsOn serverJar
+  manifest {
+    inheritFrom project.tasks.serverJar.manifest
+  }
+  baseName = 'server-withdeps'
+  from sourceSets.main.runtimeClasspath
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
 }
 
 test {
