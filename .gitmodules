@@ -1,0 +1,3 @@
+[submodule "docs/.osoco-reveal-template"]
+	path = docs/.osoco-reveal-template
+	url = https://github.com/osoco/osoco-reveal-template
