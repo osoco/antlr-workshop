@@ -472,6 +472,7 @@
                     <h2><strong>Table of contents</strong></h2>
                     <ol>
                         <li class="hide-me">Introduction</li>
+                        <li class="hide-me">Setup</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
@@ -479,6 +480,7 @@
                     <h2>Table of contents</h2>
                     <ol>
                         <li><strong>Introduction</strong></li>
+                        <li class="hide-me">Setup</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
@@ -489,6 +491,30 @@
                         <h2 class="background">1. Introduction</h2>
                     </section>
                     <section data-transition="none" data-background-image="images/first-section_dark.jpg" data-state="dimbg">
+                    </section>
+                </section>
+
+                <!-- 2. Setup -->
+                <section>
+                    <h2>Table of contents</h2>
+                    <ol>
+                        <li>Setup</li>
+                        <li><strong>Setup</strong></li>
+                        <li class="hide-me">Next steps</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <section data-transition="slide-in" data-background="images/second-section.jpg">
+                        <h2 class="background">2. Setup</h2>
+                    </section>
+                    <section data-transition="none" data-background-image="images/second-section_dark.jpg" data-state="dimbg">
+                        <ol>
+                            <li>git clone https://github.com/osoco/antlr-workshop</li>
+                            <li>for ext in pom jar; do wget http://nexus.osoco.es/repository/maven-releases/me/nallar/whocalled/WhoCalled/1.1/WhoCalled-1.1.${ext}; done</li>
+                            <li>mvn deploy:deploy-file -Durl=file://${HOME}/.m2/repository -Dfile=WhoCalled-1.1.jar -DpomFile=WhoCalled-1.1.pom</li>
+                            <li>mvn install</li>
+                        </ol>
                     </section>
                 </section>
             </div>
