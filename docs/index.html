@@ -473,6 +473,8 @@
                     <ol>
                         <li class="hide-me">Introduction</li>
                         <li class="hide-me">Setup</li>
+                        <li class="hide-me">Sample application</li>
+                        <li class="hide-me">Exercise</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
@@ -481,6 +483,8 @@
                     <ol>
                         <li><strong>Introduction</strong></li>
                         <li class="hide-me">Setup</li>
+                        <li class="hide-me">Sample application</li>
+                        <li class="hide-me">Exercise</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
@@ -491,6 +495,20 @@
                         <h2 class="background">1. Introduction</h2>
                     </section>
                     <section data-transition="none" data-background-image="images/first-section_dark.jpg" data-state="dimbg">
+                        <dl>
+                            <dt>Grammar</dt>
+                            <dd>Unambiguous definition of a language.</dd>
+                            <dt>ANTLR</dt>
+                            <dd>Grammar parser and generator</dd>
+                        </dl>
+                    </section>
+                    <section data-transition="none" data-background-image="images/first-section_dark.jpg" data-state="dimbg">
+                        <li>
+                            <dt>lexer</dt>
+                            <dd>Transforms input into tokens.</dd>
+                            <dt>parser</dt>
+                            <dd>Transforms a sequence of tokens into a tree</dd>
+                        </dl>
                     </section>
                 </section>
 
@@ -498,8 +516,10 @@
                 <section>
                     <h2>Table of contents</h2>
                     <ol>
-                        <li>Setup</li>
+                        <li>Introduction</li>
                         <li><strong>Setup</strong></li>
+                        <li class="hide-me">Sample application</li>
+                        <li class="hide-me">Exercise</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
@@ -510,11 +530,88 @@
                     </section>
                     <section data-transition="none" data-background-image="images/second-section_dark.jpg" data-state="dimbg">
                         <ol>
+                            <li>Install JDK</li>
+                            <li>Install maven</li>
+                        </ol>
+                    </section>
+                    <section data-transition="none" data-background-image="images/second-section_dark.jpg" data-state="dimbg">
+                        <ol>
                             <li>git clone https://github.com/osoco/antlr-workshop</li>
                             <li>for ext in pom jar; do wget http://nexus.osoco.es/repository/maven-releases/me/nallar/whocalled/WhoCalled/1.1/WhoCalled-1.1.${ext}; done</li>
                             <li>mvn deploy:deploy-file -Durl=file://${HOME}/.m2/repository -Dfile=WhoCalled-1.1.jar -DpomFile=WhoCalled-1.1.pom</li>
                             <li>mvn install</li>
                         </ol>
+                    </section>
+                </section>
+
+                <!-- 3. Sample application -->
+                <section>
+                    <h2>Table of contents</h2>
+                    <ol>
+                        <li>Introduction</li>
+                        <li>Setup</li>
+                        <li><strong>Sample application</strong></li>
+                        <li class="hide-me">Exercise</li>
+                        <li class="hide-me">Next steps</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <section data-transition="slide-in" data-background="images/third-section.jpg">
+                        <h2 class="background">3. Sample application</h2>
+                    </section>
+                    <section data-transition="none" data-background-image="images/third-section_dark.jpg" data-state="dimbg">
+                        <ol>
+                            <li>Commons-CLI-enabled fat jar</li>
+                            <li>Launches a Netty server</li>
+                            <li>Delegates request processing to ANTLR-based handler</li>
+                        </ol>
+                    </section>
+                </section>
+
+                <!-- 4. Exercise -->
+                <section>
+                    <h2>Table of contents</h2>
+                    <ol>
+                        <li>Introduction</li>
+                        <li>Setup</li>
+                        <li>Sample application</strong></li>
+                        <li><strong>Exercise</strong></li>
+                        <li class="hide-me">Next steps</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <section data-transition="slide-in" data-background="images/fourth-section.jpg">
+                        <h2 class="background">4. Exercise</h2>
+                    </section>
+                    <section data-transition="none" data-background-image="images/fourth-section_dark.jpg" data-state="dimbg">
+                        <p>Shut down the server when the client sends "QUIT"</p>
+                    </section>
+                </section>
+
+                <!-- 5. Next steps -->
+                <section>
+                    <h2>Table of contents</h2>
+                    <ol>
+                        <li>Introduction</li>
+                        <li>Setup</li>
+                        <li>Sample application</strong></li>
+                        <li>Exercise</li>
+                        <li><strong>Next steps</strong></li>
+                    </ol>
+                </section>
+
+                <section>
+                    <section data-transition="slide-in" data-background="images/fifth-section.jpg">
+                        <h2 class="background">5. Next steps</h2>
+                    </section>
+                    <section data-transition="none" data-background-image="images/fifth-section_dark.jpg" data-state="dimbg">
+                        <ul>
+                            <li>Rock, paper, scissors</li>
+                            <li>Custom autentication mechanism</li>
+                            <li>Chat</li>
+                        </ul>
                     </section>
                 </section>
             </div>
