@@ -62,7 +62,7 @@ idea {
 task serverJar(type: Jar) {
   dependsOn classes
   manifest {
-    attributes "Main-Class": 'es.osoco.workshops.antlr.server.ServerCLI'
+    attributes "Main-Class": 'es.osoco.workshops.antlr.server.cli.ServerCLI'
   }
   include '**/*.jar'
   include '**/*.class'

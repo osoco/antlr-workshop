@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>ANTLR workshop</title>
+        <title>ANTLR workshop: Broken links detector</title>
 
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -57,7 +57,7 @@
                 <section id="cover">
                     <div id="cover-contents">
 
-                        <h1>ANTLR workshop</h1>
+                        <h1>ANTLR workshop: Broken links detector</h1>
                         <h3></h3>
                         <ul class="author" style="display: inline">
                             <li style="display: inline"><small><a href="mailto:jose.sanleandro@osoco.es">Jose San Leandro</a></small></li>
@@ -471,10 +471,9 @@
                 <section>
                     <h2><strong>Table of contents</strong></h2>
                     <ol>
-                        <li class="hide-me">Introduction</li>
-                        <li class="hide-me">Setup</li>
-                        <li class="hide-me">Sample application</li>
+                        <li class="hide-me">Recap</li>
                         <li class="hide-me">Exercise</li>
+                        <li class="hide-me">Summary</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
@@ -483,137 +482,119 @@
                 <section>
                     <h2>Table of contents</h2>
                     <ol>
-                        <li><strong>Introduction</strong></li>
-                        <li class="hide-me">Setup</li>
-                        <li class="hide-me">Sample application</li>
+                        <li><strong>Recap</strong></li>
                         <li class="hide-me">Exercise</li>
+                        <li class="hide-me">Summary</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
 
                 <section>
                     <section data-transition="slide-in" data-background="images/1st-section.png">
-                        <h2 class="background">1. Introduction</h2>
+                        <h2 class="background">1. Recap</h2>
                     </section>
                     <section data-transition="none" data-background-image="images/1st-section_dark.png" data-state="dimbg">
-                        <dl>
-                            <dt class="fragment">Grammar</dt>
-                            <dd class="fragment">Unambiguous definition of a language.</dd>
-                            <dt class="fragment">ANTLR</dt>
-                            <dd class="fragment">Grammar parser and generator.</dd>
-                        </dl>
-                    </section>
-                    <section data-transition="none" data-background-image="images/1st-section_dark.png" data-state="dimbg">
-                        <li>
-                            <dt class="fragment">lexer</dt>
-                            <dd class="fragment">Transforms input into tokens.</dd>
-                            <dt class="fragment">parser</dt>
-                            <dd class="fragment">Transforms a sequence of tokens into a tree structure.</dd>
+                        <ul>
+                            <li class="fragment">ANTLR reads a grammar file and ...</li>
+                            <li class="fragment">What does the lexer do?</li>
+                            <li class="fragment">What does the parser do?</li>
+                            <li class="fragment">Once we have a parser, what do we do with it?</dd>
                         </dl>
                     </section>
                 </section>
 
-                <!-- 2. Setup -->
+                <!-- 2. Sample application -->
                 <section>
                     <h2>Table of contents</h2>
                     <ol>
-                        <li>Introduction</li>
-                        <li><strong>Setup</strong></li>
-                        <li class="hide-me">Sample application</li>
-                        <li class="hide-me">Exercise</li>
+                        <li>Recap</li>
+                        <li><strong>Exercise</strong></li>
+                        <li class="hide-me">Summary</li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
 
                 <section>
                     <section data-transition="slide-in" data-background="images/2nd-section.png">
-                        <h2 class="background">2. Setup</h2>
+                        <h2 class="background">4. Exercise</h2>
                     </section>
                     <section data-transition="none" data-background-image="images/2nd-section_dark.png" data-state="dimbg">
-                        <ol>
-                            <li class="fragment">Install JDK</li>
-                            <li class="fragment">Install maven</li>
-                            <li class="fragment">Use OSOCO VPN</li>
-                        </ol>
+                        <h3>Exercise (1/2)</h3>
+                        <ul>
+                            <li class="fragment fade-in">Implement a new "check-url [url]" command.</li>
+                            <li class="fragment fade-in">Read the contents of the url given.</li>
+                            <li class="fragment fade-in">Create a HTML parser to process contents of the url.</li>
                     </section>
                     <section data-transition="none" data-background-image="images/2nd-section_dark.png" data-state="dimbg">
-                        <ol>
-                            <li class="fragment"><pre><code data-trim data-noescape>git clone https://github.com/osoco/antlr-workshop</code></pre></li>
-                            <li class="fragment"><pre><code data-trim data-noescape>cd antlr-workshop && git checkout develop</code></pre></li>
-                            <li class="fragment"><pre><code data-trim data-noescape>export M2REPO="http://nexus.osoco.es/repository/maven-releases/";
-export WHOCALLED="me/nallar/whocalled/WhoCalled/1.1";
-for ext in pom jar; do
-  wget ${M2REPO}/${WHOCALLED}/WhoCalled-1.1.${ext};
-done</code></pre></li>
-                            <li class="fragment"><pre><code data-trim data-noescape>[ -e ~/.m2/settings.xml ] && \
-mv ~/.m2/settings.xml ~/.m2/settings.xml.old ]</code></pre></li>
-                            <li class="fragment"><pre><code data-trim data-noescape>mvn deploy:deploy-file \
-  -Durl=file://${HOME}/.m2/repository \
-  -Dfile=WhoCalled-1.1.jar \
-  -DpomFile=WhoCalled-1.1.pom</code></pre></li>
-                            <li class="fragment"><pre><code data-trim data-noescape>mvn install</code></pre></li>
-                        </ol>
+                        <h3>Exercise (2/2)</h3>
+                        <ul>
+                            <li class="fragment fade-in">Extract all urls included as HTML attributes.</li>
+                            <li class="fragment fade-in">Check if each url responds with a 200.</li>
+                            <li class="fragment fade-in">Include the list of broken urls in the response to the client.</li>
+                        </ul>
                     </section>
-                </section>
-
-                <!-- 3. Sample application -->
-                <section>
-                    <h2>Table of contents</h2>
-                    <ol>
-                        <li>Introduction</li>
-                        <li>Setup</li>
-                        <li><strong>Sample application</strong></li>
-                        <li class="hide-me">Exercise</li>
-                        <li class="hide-me">Next steps</li>
-                    </ol>
                 </section>
 
                 <section>
                     <section data-transition="slide-in" data-background="images/3rd-section.png">
-                        <h2 class="background">3. Sample application</h2>
+                        <h2 class="background">3. Hints</h2>
                     </section>
                     <section data-transition="none" data-background-image="images/3rd-section_dark.png" data-state="dimbg">
-                        <ol>
-                            <li class="fragment fade-in">Commons-CLI-enabled fat jar.</li>
-                            <li class="fragment fade-in">Launches a Netty server.</li>
-                            <li class="fragment fade-in">Delegates request processing to an ANTLR-based handler.</li>
-                        </ol>
+                        <h3>Hints (1/2)</h3>
+                        <ul>
+                            <li class="fragment fade-in">Copy HTMLLexer.g4 and HTMLParser.g4 from <a href="https://github.com/antlr/grammars-v4/tree/master/html">https://github.com/antlr/grammars-v4/tree/master/html</a>.</li>
+                            <li class="fragment fade-in">Visit the "checkUrl" command.</li>
+                            <li class="fragment fade-in">Read the contents of the given url with <pre><code data-trim data-noescape>cmdArg.toUrl().text</code></pre></li>
+                            <li class="fragment fade-in">The urls will be enclosed in double quotes.</li>
+                        </ul>
+                    </section>
+                    <section data-transition="none" data-background-image="images/3rd-section_dark.png" data-state="dimbg">
+                        <h3>Hints (2/2)</h3>
+                        <ul>
+                            <li class="fragment fade-in">Check the response with <pre><code data-trim data-noescape>HttpURLConnection connection =
+    (HttpURLConnection) new URL(url).openConnection()
+        connection.requestMethod = 'HEAD'
+        connection.connect()
+        connection.responseCode</code></pre></li>
+                            <li class="fragment fade-in">Debug the server with <pre><code data-trim data-noescape>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</code></pre></li>
+                        </ul>
                     </section>
                 </section>
 
-                <!-- 4. Exercise -->
+                <!-- 4. Summary -->
                 <section>
                     <h2>Table of contents</h2>
                     <ol>
-                        <li>Introduction</li>
-                        <li>Setup</li>
-                        <li>Sample application</strong></li>
-                        <li><strong>Exercise</strong></li>
+                        <li>Recap</li>
+                        <li>Exercise</li>
+                        <li>Hints</li>
+                        <li><strong>Summary</strong></li>
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
 
                 <section>
                     <section data-transition="slide-in" data-background="images/4th-section.png">
-                        <h2 class="background">4. Exercise</h2>
+                        <h2 class="background">4. Summary</h2>
                     </section>
                     <section data-transition="none" data-background-image="images/4th-section_dark.png" data-state="dimbg">
                         <ul>
-                            <li class="fragment fade-in">Shut down the server when the client sends "QUIT".</li>
-                            <li class="fragment fade-in">Reuse the existing visitor.</li>
-                            <li class="fragment fade-in">Make sure the existing logic still works (the server prints back the command), even for QUIT.</li>
+                            <li class="fragment">The ANTLR4 catalog allows parsing popular languages easy.</li>
+                            <li class="fragment">We just have to traverse the tree.</li>
+                            <li class="fragment">Ideal for proof-of-concepts or prototyping.</li>
+                            <li class="fragment">Performance might need to be optimized for production use.</li>
                         </ul>
                     </section>
                 </section>
 
-                <!-- 5. Next steps -->
+                <!-- 4. Next steps -->
                 <section>
                     <h2>Table of contents</h2>
                     <ol>
-                        <li>Introduction</li>
-                        <li>Setup</li>
-                        <li>Sample application</strong></li>
+                        <li>Recap</li>
                         <li>Exercise</li>
+                        <li>Hints</li>
+                        <li>Summary</li>
                         <li><strong>Next steps</strong></li>
                     </ol>
                 </section>
@@ -624,8 +605,8 @@ mv ~/.m2/settings.xml ~/.m2/settings.xml.old ]</code></pre></li>
                     </section>
                     <section data-transition="none" data-background-image="images/5th-section_dark.png" data-state="dimbg">
                         <ul>
-                            <li class="fragment">Find broken links in an HTML.</li>
-                            <li class="fragment">Rock, paper, scissors.</li>
+                            <li class="fragment">Customizing error handling.</li>
+                            <li class="fragment">Semantic predicates.</li>
                         </ul>
                     </section>
                 </section>

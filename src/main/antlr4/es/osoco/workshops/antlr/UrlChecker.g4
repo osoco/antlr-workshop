@@ -1,15 +1,13 @@
 //;-*- mode: antlr -*-
-grammar SimpleProtocol;
+grammar UrlChecker;
 
 /*------------------------------------------------------------------
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-command : reload | next | prev;
+command : quit;
 
-reload : RELOAD;
-next: NEXT;
-prev: PREV;
+quit: QUIT;
 
 /*------------------------------------------------------------------
  * LEXER RULES
@@ -18,6 +16,6 @@ prev: PREV;
 WS : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ -> skip;
 
 // keywords
-RELOAD: 'reload';
-NEXT: 'next';
-PREV : 'prev';
+CHECK_URL: 'check-url';
+QUIT : 'quit';
+URL: 'http' 's'? '://' ~[ ]*;

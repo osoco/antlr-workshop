@@ -1,6 +1,7 @@
-package es.osoco.workshops.antlr.server
+package es.osoco.workshops.antlr.server.netty
 
 import es.osoco.logging.LoggingFactory
+import es.osoco.workshops.antlr.server.UrlCheckerRequestHandler
 import groovy.transform.CompileStatic
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelFuture
@@ -103,7 +104,7 @@ class NettyBackend {
         throws InterruptedException,
                IOException {
 
-        return launchServer(port, new NettyBackendChannelHandler(new SimpleProtocolRequestHandler()))
+        return launchServer(port, new NettyBackendChannelHandler(new UrlCheckerRequestHandler()))
     }
 
     /**
@@ -146,7 +147,9 @@ class NettyBackend {
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
 
-            LoggingFactory.instance.createLogging().info("Server started on port ${port}")
+            LoggingFactory.instance.createLogging().info('***')
+            LoggingFactory.instance.createLogging().info("*** Server started on port ${port}")
+            LoggingFactory.instance.createLogging().info('***')
 
             // Bind and start to accept incoming connections.
             aux = b.bind(port).sync() 

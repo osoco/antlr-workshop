@@ -1,6 +1,7 @@
-package es.osoco.workshops.antlr.server
+package es.osoco.workshops.antlr.server.netty
 
 import es.osoco.logging.LoggingFactory
+import es.osoco.workshops.antlr.server.UrlCheckerRequestHandler
 import groovy.transform.CompileStatic
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
@@ -8,7 +9,6 @@ import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
-import io.netty.channel.ChannelPromise
 import io.netty.util.CharsetUtil
 import io.netty.util.ReferenceCountUtil
 import org.jetbrains.annotations.NotNull
@@ -21,13 +21,13 @@ import org.jetbrains.annotations.NotNull
 class NettyBackendChannelHandler
     extends ChannelInboundHandlerAdapter {
 
-    SimpleProtocolRequestHandler requestHandler
+    UrlCheckerRequestHandler requestHandler
 
     /**
      * Creates a new instance.
-     * @param handler the {@link SimpleProtocolRequestHandler handler}.
+     * @param handler the {@link UrlCheckerRequestHandler handler}.
      */
-    NettyBackendChannelHandler(@NotNull final SimpleProtocolRequestHandler handler)
+    NettyBackendChannelHandler(@NotNull final UrlCheckerRequestHandler handler)
     {
         this.requestHandler = handler
     }
@@ -79,9 +79,9 @@ class NettyBackendChannelHandler
     /**
      * Processes given message.
      * @param message the message.
-     * @param handler the {@link SimpleProtocolRequestHandler handler}.
+     * @param handler the {@link UrlCheckerRequestHandler handler}.
      */
-    String processMessage(@NotNull final String message, @NotNull final SimpleProtocolRequestHandler handler) {
+    String processMessage(@NotNull final String message, @NotNull final UrlCheckerRequestHandler handler) {
         handler.process(message)
     }
 }
