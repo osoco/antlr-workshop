@@ -5,8 +5,9 @@ grammar UrlChecker;
  * PARSER RULES
  *------------------------------------------------------------------*/
 
-command : quit;
+command : checkUrl | quit;
 
+checkUrl : CHECK_URL URL;
 quit: QUIT;
 
 /*------------------------------------------------------------------

@@ -15,20 +15,20 @@ class UrlCheckerRequestHandler {
 
     String process(@NotNull final String message) {
         LoggingFactory.instance.createLogging().info("Received ${message}")
-        @NotNull final UrlCheckerParser parser = buildParser(message)
+        UrlCheckerParser parser = buildParser(message)
         parseCommand(parser)
     }
 
     UrlCheckerParser buildParser(@NotNull final String message) {
-        @NotNull final UrlCheckerLexer lexer = new UrlCheckerLexer(new ANTLRInputStream(message))
-        @NotNull final CommonTokenStream tokens = new CommonTokenStream(lexer)
+        UrlCheckerLexer lexer = new UrlCheckerLexer(new ANTLRInputStream(message))
+        CommonTokenStream tokens = new CommonTokenStream(lexer)
         new UrlCheckerParser(tokens)
     }
 
     String parseCommand(@NotNull final UrlCheckerParser parser) {
-        @NotNull final ParseTree tree = parser.command()
+        ParseTree tree = parser.command()
 
-        @NotNull final UrlCheckerCommandVisitor visitor = new UrlCheckerCommandVisitor()
+        UrlCheckerCommandVisitor visitor = new UrlCheckerCommandVisitor()
 
         visitor.visit(tree)
 
