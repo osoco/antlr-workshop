@@ -15,12 +15,13 @@ class CheckUrlVisitor extends HTMLParserBaseVisitor<String> {
         final ParseTree node = ctx.getChild(0)
         if (node && node.getText().startsWith('"http')) {
             final String url = node.getText().substring(1, node.getText().length() - 1)
-            LoggingFactory.instance.createLogging().info("Found url: ${url}")
             final int code = checkHttpStatus(url)
-            if (code == 404) {
+            LoggingFactory.instance.createLogging().info("${url} -> ${code}")
+            if (code >= 400) {
                 brokenUrls << url
             }
         }
+        super.visitHtmlAttributeValue(ctx)
     }
 
     int checkHttpStatus(@NotNull final String url) {

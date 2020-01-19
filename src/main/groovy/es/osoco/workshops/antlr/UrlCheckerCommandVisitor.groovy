@@ -10,8 +10,6 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 import org.jetbrains.annotations.NotNull
 
-import javax.swing.text.html.HTML
-
 @CompileStatic
 class UrlCheckerCommandVisitor extends UrlCheckerBaseVisitor<String> {
 
@@ -25,19 +23,21 @@ class UrlCheckerCommandVisitor extends UrlCheckerBaseVisitor<String> {
 
     @Override
     String visitCheckUrl(@NotNull final CheckUrlContext ctx) {
-        final String url = ctx.getChild(1).getText()
+        @NotNull final String url = ctx.getChild(1).getText()
         checkUrl(url)
+        super.visitCheckUrl(ctx)
     }
 
     void checkUrl(@NotNull final String url) {
-        final Logging logging = LoggingFactory.instance.createLogging()
+        @NotNull final Logging logging = LoggingFactory.instance.createLogging()
         logging.info("Checking url ${url}")
         try {
             final String content = url.toURL().text
             if (content) {
-                final HTMLParser parser = buildParser(content)
+                @NotNull final HTMLParser parser = buildParser(content)
+                this.response = ""
                 for (@NotNull final String brokenUrl: checkUrls(parser)) {
-                    response << "Broken url: ${brokenUrl}\n"
+                    this.response += "Broken url: ${brokenUrl}\n"
                 }
             }
         } catch (final Throwable cannotAccessUrl) {
@@ -45,16 +45,18 @@ class UrlCheckerCommandVisitor extends UrlCheckerBaseVisitor<String> {
         }
     }
 
+    @NotNull
     HTMLParser buildParser(@NotNull final String content) {
-        final HTMLLexer lexer = new HTMLLexer(new ANTLRInputStream(content))
-        final CommonTokenStream tokens = new CommonTokenStream(lexer)
+        @NotNull final HTMLLexer lexer = new HTMLLexer(new ANTLRInputStream(new StringReader(content), content.length()))
+        @NotNull final CommonTokenStream tokens = new CommonTokenStream(lexer)
         new HTMLParser(tokens)
     }
 
+    @NotNull
     List<String> checkUrls(@NotNull final HTMLParser parser) {
-        final ParseTree tree = parser.htmlDocument()
+        @NotNull final ParseTree tree = parser.htmlDocument()
 
-        final CheckUrlVisitor visitor = new CheckUrlVisitor()
+        @NotNull final CheckUrlVisitor visitor = new CheckUrlVisitor()
 
         visitor.visit(tree)
 
