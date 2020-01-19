@@ -12,7 +12,7 @@
 
         <link rel="stylesheet" href=".osoco-reveal-template/reveal.js/css/reveal.css">
         <link rel="stylesheet" href=".osoco-reveal-template/css/theme/osoco.css" id="theme">
-        <link rel="stylesheet" href="css/architecture.css">
+        <link rel="stylesheet" href="css/custom.css">
 
         <!-- Code syntax highlighting -->
         <link rel="stylesheet" href=".osoco-reveal-template/reveal.js/lib/css/zenburn.css">
@@ -478,6 +478,8 @@
                         <li class="hide-me">Next steps</li>
                     </ol>
                 </section>
+
+                <!-- 1. Introduction -->
                 <section>
                     <h2>Table of contents</h2>
                     <ol>
@@ -489,25 +491,24 @@
                     </ol>
                 </section>
 
-                <!-- 1. Introduction -->
                 <section>
-                    <section data-transition="slide-in" data-background="images/first-section.jpg">
+                    <section data-transition="slide-in" data-background="images/1st-section.png">
                         <h2 class="background">1. Introduction</h2>
                     </section>
-                    <section data-transition="none" data-background-image="images/first-section_dark.jpg" data-state="dimbg">
+                    <section data-transition="none" data-background-image="images/1st-section_dark.png" data-state="dimbg">
                         <dl>
-                            <dt>Grammar</dt>
-                            <dd>Unambiguous definition of a language.</dd>
-                            <dt>ANTLR</dt>
-                            <dd>Grammar parser and generator</dd>
+                            <dt class="fragment">Grammar</dt>
+                            <dd class="fragment">Unambiguous definition of a language.</dd>
+                            <dt class="fragment">ANTLR</dt>
+                            <dd class="fragment">Grammar parser and generator.</dd>
                         </dl>
                     </section>
-                    <section data-transition="none" data-background-image="images/first-section_dark.jpg" data-state="dimbg">
+                    <section data-transition="none" data-background-image="images/1st-section_dark.png" data-state="dimbg">
                         <li>
-                            <dt>lexer</dt>
-                            <dd>Transforms input into tokens.</dd>
-                            <dt>parser</dt>
-                            <dd>Transforms a sequence of tokens into a tree</dd>
+                            <dt class="fragment">lexer</dt>
+                            <dd class="fragment">Transforms input into tokens.</dd>
+                            <dt class="fragment">parser</dt>
+                            <dd class="fragment">Transforms a sequence of tokens into a tree structure.</dd>
                         </dl>
                     </section>
                 </section>
@@ -525,21 +526,32 @@
                 </section>
 
                 <section>
-                    <section data-transition="slide-in" data-background="images/second-section.jpg">
+                    <section data-transition="slide-in" data-background="images/2nd-section.png">
                         <h2 class="background">2. Setup</h2>
                     </section>
-                    <section data-transition="none" data-background-image="images/second-section_dark.jpg" data-state="dimbg">
+                    <section data-transition="none" data-background-image="images/2nd-section_dark.png" data-state="dimbg">
                         <ol>
-                            <li>Install JDK</li>
-                            <li>Install maven</li>
+                            <li class="fragment">Install JDK</li>
+                            <li class="fragment">Install maven</li>
+                            <li class="fragment">Use OSOCO VPN</li>
                         </ol>
                     </section>
-                    <section data-transition="none" data-background-image="images/second-section_dark.jpg" data-state="dimbg">
+                    <section data-transition="none" data-background-image="images/2nd-section_dark.png" data-state="dimbg">
                         <ol>
-                            <li>git clone https://github.com/osoco/antlr-workshop</li>
-                            <li>for ext in pom jar; do wget http://nexus.osoco.es/repository/maven-releases/me/nallar/whocalled/WhoCalled/1.1/WhoCalled-1.1.${ext}; done</li>
-                            <li>mvn deploy:deploy-file -Durl=file://${HOME}/.m2/repository -Dfile=WhoCalled-1.1.jar -DpomFile=WhoCalled-1.1.pom</li>
-                            <li>mvn install</li>
+                            <li class="fragment"><pre><code data-trim data-noescape>git clone https://github.com/osoco/antlr-workshop</code></pre></li>
+                            <li class="fragment"><pre><code data-trim data-noescape>cd antlr-workshop && git checkout develop</code></pre></li>
+                            <li class="fragment"><pre><code data-trim data-noescape>export M2REPO="http://nexus.osoco.es/repository/maven-releases/";
+export WHOCALLED="me/nallar/whocalled/WhoCalled/1.1";
+for ext in pom jar; do
+  wget ${M2REPO}/${WHOCALLED}/WhoCalled-1.1.${ext};
+done</code></pre></li>
+                            <li class="fragment"><pre><code data-trim data-noescape>[ -e ~/.m2/settings.xml ] && \
+mv ~/.m2/settings.xml ~/.m2/settings.xml.old ]</code></pre></li>
+                            <li class="fragment"><pre><code data-trim data-noescape>mvn deploy:deploy-file \
+  -Durl=file://${HOME}/.m2/repository \
+  -Dfile=WhoCalled-1.1.jar \
+  -DpomFile=WhoCalled-1.1.pom</code></pre></li>
+                            <li class="fragment"><pre><code data-trim data-noescape>mvn install</code></pre></li>
                         </ol>
                     </section>
                 </section>
@@ -557,14 +569,14 @@
                 </section>
 
                 <section>
-                    <section data-transition="slide-in" data-background="images/third-section.jpg">
+                    <section data-transition="slide-in" data-background="images/3rd-section.png">
                         <h2 class="background">3. Sample application</h2>
                     </section>
-                    <section data-transition="none" data-background-image="images/third-section_dark.jpg" data-state="dimbg">
+                    <section data-transition="none" data-background-image="images/3rd-section_dark.png" data-state="dimbg">
                         <ol>
-                            <li>Commons-CLI-enabled fat jar</li>
-                            <li>Launches a Netty server</li>
-                            <li>Delegates request processing to ANTLR-based handler</li>
+                            <li class="fragment fade-in">Commons-CLI-enabled fat jar.</li>
+                            <li class="fragment fade-in">Launches a Netty server.</li>
+                            <li class="fragment fade-in">Delegates request processing to an ANTLR-based handler.</li>
                         </ol>
                     </section>
                 </section>
@@ -582,11 +594,15 @@
                 </section>
 
                 <section>
-                    <section data-transition="slide-in" data-background="images/fourth-section.jpg">
+                    <section data-transition="slide-in" data-background="images/4th-section.png">
                         <h2 class="background">4. Exercise</h2>
                     </section>
-                    <section data-transition="none" data-background-image="images/fourth-section_dark.jpg" data-state="dimbg">
-                        <p>Shut down the server when the client sends "QUIT"</p>
+                    <section data-transition="none" data-background-image="images/4th-section_dark.png" data-state="dimbg">
+                        <ul>
+                            <li class="fragment fade-in">Shut down the server when the client sends "QUIT".</li>
+                            <li class="fragment fade-in">Reuse the existing visitor.</li>
+                            <li class="fragment fade-in">Make sure the existing logic still works (the server prints back the command), even for QUIT.</li>
+                        </ul>
                     </section>
                 </section>
 
@@ -603,14 +619,13 @@
                 </section>
 
                 <section>
-                    <section data-transition="slide-in" data-background="images/fifth-section.jpg">
+                    <section data-transition="slide-in" data-background="images/5th-section.png">
                         <h2 class="background">5. Next steps</h2>
                     </section>
-                    <section data-transition="none" data-background-image="images/fifth-section_dark.jpg" data-state="dimbg">
+                    <section data-transition="none" data-background-image="images/5th-section_dark.png" data-state="dimbg">
                         <ul>
-                            <li>Rock, paper, scissors</li>
-                            <li>Custom autentication mechanism</li>
-                            <li>Chat</li>
+                            <li class="fragment">Find broken links in an HTML.</li>
+                            <li class="fragment">Rock, paper, scissors.</li>
                         </ul>
                     </section>
                 </section>

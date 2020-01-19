@@ -1,0 +1,55 @@
+.reveal ol,
+.reveal dl,
+.reveal ul {
+	display: inline-block;
+	text-align: left;
+	margin: 0 0 0 1em;
+	text-transform: none !important;
+	font-weight: 400;
+}
+
+img.stack {
+		position: absolute;
+		left: 0;
+}
+
+html.background-adjusted  div.slide-background.present {
+		background-size: contain;
+}
+
+html.large-slide .slides {
+		width: 100% !important;
+}
+
+.reveal td.left {
+		text-align: left;
+}
+
+.reveal .slides section .background,
+.reveal .slides section .background.fragment.visible
+{
+		background-color: #000;
+		opacity: .8;
+}
+
+.reveal table.small {
+		font-size: .7em;
+}
+
+.reveal table.small td {
+		text-align: left;
+}
+
+.reveal table.small th {
+		text-align: left;
+		font-weight: bold;
+		font-size: 1.2em;
+}
+
+.reveal table.small p {
+		line-height: 1em;
+}
+
+code {
+    white-space: pre-wrap;
+}
