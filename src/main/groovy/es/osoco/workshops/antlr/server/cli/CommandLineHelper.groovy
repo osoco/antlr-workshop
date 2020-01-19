@@ -1,7 +1,7 @@
-package es.osoco.workshops.antlr.server.helpers
+package es.osoco.workshops.antlr.server.cli
 
 import es.osoco.logging.LoggingFactory
-import es.osoco.workshops.antlr.server.CLIOptions
+import es.osoco.workshops.antlr.server.cli.CLIOptions
 import groovy.transform.CompileStatic
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.Options

@@ -1,4 +1,4 @@
-package es.osoco.workshops.antlr.server
+package es.osoco.workshops.antlr.server.cli
 
 import groovy.transform.CompileStatic
 

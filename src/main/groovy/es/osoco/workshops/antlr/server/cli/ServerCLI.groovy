@@ -1,7 +1,6 @@
-package es.osoco.workshops.antlr.server
+package es.osoco.workshops.antlr.server.cli
 
-
-import es.osoco.workshops.antlr.server.helpers.CommandLineHelper
+import es.osoco.workshops.antlr.server.netty.NettyBackend
 import groovy.transform.CompileStatic
 import lombok.NonNull
 import org.apache.commons.cli.CommandLine
